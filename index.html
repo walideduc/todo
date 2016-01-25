@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <!--<link rel="stylesheet" href="/css/base.css"/>-->
+    <link rel="stylesheet" href="/css/index.css"/>
+    <link rel="shortcut icon" type="image/png" href="https://gravatar.com/avatar/52b2d5f049536549471db3cb9506f70d?s=16">
+    <title>Todo Application</title>
+</head>
+<body ng-app="todo">
+    <section id="todoapp" ng-controller="TodoCtrl">
+        <header id="header">
+            <h1>TodoList</h1>
+            <form action="#" id="todo-form" ng-submit="addTodo()">
+                <input type="text" id="new-todo" placeholder="Nouvelle tàche" autofocus autocomplete="off" ng-model="newTodo">
+            </form>
+        </header>
+        <section id="main">
+            <input id="toggle-all" type="checkbox" ng-model="allChecked" ng-click="checkAllTodo(allChecked)"/>
+            <ul id="todo-list" >
+                <li ng-repeat="todo in todos" ng-class="{completed : todo.completed}">
+                    <div class="view">
+                        <input class="toggle" type="checkbox" ng-model="todo.completed" ng-click="checkTodo($index,todo.completed)"/>
+                        <label>{{todo.name}}</label>
+                        <button class="destroy" ng-click="removeTodo($index)"></button>
+                        <!--<form action="#" ng-if="!todo.completed">-->
+                            <!--<input class="edit" value="Etendre le linge"/>-->
+                        <!--</form>-->
+                    </div>
+                </li>
+            </ul>
+            <footer id="footer">
+                <span id="todo-count"><strong>{{remaining}}</strong> Tâches restantes</span>
+            </footer>
+        </section>
+    </section>
+
+<script type="text/javascript" src="bower_components/angular/angular.js"></script>
+<script type="text/javascript" src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
+<script type="text/javascript" src="/js/app.js"></script>
+
+</body>
+</html>

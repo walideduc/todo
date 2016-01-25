@@ -1,0 +1,23 @@
+{
+  "name": "todo",
+  "authors": [
+    "walideduc <walideduc@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-local-storage": "~0.2.3",
+    "angular": "~1.4.9"
+  }
+}
