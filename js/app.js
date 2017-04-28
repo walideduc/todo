@@ -7,12 +7,18 @@ app.config(function(localStorageServiceProvider){
     localStorageServiceProvider.setStorageType('localStorage');//You could change web storage type to localStorage or sessionStorage
 
 });
-app.controller('TodoCtrl',function($scope,filterFilter,localStorageService){
-
-    //$scope.todos = [
-    //    {name : 'Tâche completé', completed : true},
-    //    {name : 'Tâche incompleté', completed : false},
-    //    ];
+app.directive('snBlur',function(){
+    return function (scope,element,attrs){
+        //console.log(scope);
+        element.bind('blur',function(){
+            scope.$apply(attrs.snBlur);
+        });
+    }
+});
+app.controller('TodoCtrl',function($scope,filterFilter,localStorageService,$location){
+    $scope.done = false;
+    $scope.placeholder = " Ajouter une nouvelle tàche ";
+    $scope.status = {}
     getTodos = function(){
         todo = localStorageService.get('todo');
         if(todo === null){
@@ -23,6 +29,26 @@ app.controller('TodoCtrl',function($scope,filterFilter,localStorageService){
     updateTodos = function(){
         localStorageService.set('todo',$scope.todos);
     };
+    $scope.editTodo = function(todo){
+        todo.editing = false ;
+        updateTodos();
+    };
+
+    if($location.path() == ''){$location.path('/')}
+    $scope.location = $location ;
+    $scope.$watch('location.path()',function(newValue){
+        //alert($location.path());
+        $scope.status = newValue == '/' ? {} : newValue == '/active' ? {completed : false} : {completed : true}
+    },true);
+
+
+
+
+    //$scope.todos = [
+    //    {name : 'Tâche completé', completed : true},
+    //    {name : 'Tâche incompleté', completed : false},
+    //    ];
+
     $scope.todos =  getTodos();
 
     //if(localStorageService.isSupported){
@@ -55,14 +81,12 @@ app.controller('TodoCtrl',function($scope,filterFilter,localStorageService){
 
     $scope.checkAllTodo = function(allChecked){
         angular.forEach($scope.todos,function(todo){
-          todo.completed = allChecked ;
+            todo.completed = allChecked ;
         })
         updateTodos();
     }
 
     $scope.checkTodo = function(index,checked){
-        console.log(index);
-        console.log(checked);
         $scope.todos[index].completed= checked;
         updateTodos();
 
